@@ -1,13 +1,17 @@
   [
     {
       "providerId": "openweathermap",
-      "url": "https://api.openweathermap.org/data/2.5/weather?q=",
-      "apiKey": "&appid=9e74aa20c50c91a142ee6f03e9aa760b"
+      "url": "https://api.openweathermap.org/data/2.5/weather?",
+      "apiKey": "appid=9e74aa20c50c91a142ee6f03e9aa760b",
+      "params": ["q="],
+      "delimiter": "&"
     },
     {
       "providerId": "weatherapi",
-      "url": "http://api.weatherapi.com/v1/current.json?q=",
-      "apiKey": "&key=8689342c217a49328c9160427222712"
+      "url": "http://api.weatherapi.com/v1/current.json?",
+      "apiKey": "key=8689342c217a49328c9160427222712",
+      "params": ["q="],
+      "delimiter": "&"
     }
   ]
  

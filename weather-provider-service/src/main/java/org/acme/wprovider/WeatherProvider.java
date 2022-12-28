@@ -1,13 +1,18 @@
 package org.acme.wprovider;
 
+import java.util.ArrayList;
+
 public class WeatherProvider {
 
     public String providerId;
     public String url;
     public String apiKey;
+    public ArrayList<String> params;
+    public String delimiter;
 
     @Override
     public String toString() {
-        return "WeatherProvider [providerId=" + providerId + ", url=" + url + "]";
+        return "WeatherProvider [providerId=" + providerId + ", url=" + url + ", apiKey=" + apiKey + ", params="
+                + params + ", delimiter=" + delimiter + "]";
     }
 }

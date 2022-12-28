@@ -24,8 +24,15 @@ public class WeatherForecastCacheService {
     public <T> T getDailyForecastForCityFromProvider(String city, String providerId) {
         LOGGER.info("///Retrieving weather data from external API///");
         WeatherProvider weatherProvider = weatherProviderProxy.getWeatherProviderById(providerId);
+
+        StringBuilder baseUri = new StringBuilder(weatherProvider.url);
+        baseUri.append(weatherProvider.params.get(0))
+                .append(city)
+                .append(weatherProvider.delimiter)
+                .append(weatherProvider.apiKey);
+
         return RestClientBuilder.newBuilder()
-                .baseUri(URI.create(weatherProvider.url + city + weatherProvider.apiKey))
+                .baseUri(URI.create(baseUri.toString()))
                 .build(WeatherForecastService.class).getDailyForecastForCity(city);
     }
 }
