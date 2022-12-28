@@ -20,15 +20,14 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 @Path("/api/providers")
 public class WeatherProviderResource {
 
-    @Inject
-    Logger logger;
+    private static final Logger LOGGER = Logger.getLogger(WeatherProviderResource.class);
 
     @GET
     @Path("/{providerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public WeatherProvider getWeatherProviderByName(@PathParam String providerId)
+    public WeatherProvider getWeatherProviderById(@PathParam String providerId)
             throws IOException, URISyntaxException {
-        logger.info("Accessing data provider with name: " + providerId);
+        LOGGER.info("Accessing provider data with id: " + providerId);
 
         ObjectMapper mapper = new ObjectMapper();
         URL resource = getClass().getClassLoader().getResource("providers.json");
@@ -36,9 +35,9 @@ public class WeatherProviderResource {
         Set<WeatherProvider> weatherProviders = mapper.readValue(jsonFile,
                 mapper.getTypeFactory().constructCollectionType(Set.class, WeatherProvider.class));
 
-        logger.info("Weather provider data: " + weatherProviders);
+        LOGGER.info("Weather providers data: " + weatherProviders);
 
-        return weatherProviders.stream().filter(provider -> provider.name.equals(providerId))
+        return weatherProviders.stream().filter(provider -> provider.providerId.equals(providerId))
                 .findFirst().orElse(null);
     }
 }

@@ -15,5 +15,5 @@ public interface WeatherProviderProxy {
     @GET
     @Path("/{providerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    WeatherProvider getWeatherProviderByName(@PathParam("providerId") String providerId);
+    WeatherProvider getWeatherProviderById(@PathParam("providerId") String providerId);
 }
