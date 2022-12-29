@@ -6,10 +6,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.jboss.logging.Logger;
-//import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 @Path("/")
+@ClientHeaderParam(name = "X_REQUESTID", value = "{org.acme.wforecast.CustomHeaderHelper.getHeaderValue}")
 public class WeatherForecastResource {
 
     private static final Logger LOGGER = Logger.getLogger(WeatherForecastResource.class);
