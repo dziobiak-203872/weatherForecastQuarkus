@@ -12,7 +12,7 @@ public class WeatherProvider {
 
     @Override
     public String toString() {
-        return "WeatherProvider [providerId=" + providerId + ", url=" + url + ", apiKey=" + apiKey + ", params="
+        return "WeatherProvider [providerId=" + providerId + ", url=" + url + ", params="
                 + params + ", delimiter=" + delimiter + "]";
     }
 }

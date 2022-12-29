@@ -5,17 +5,16 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Set;
+
 import org.jboss.logging.Logger;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 @Path("/api/providers")
 public class WeatherProviderResource {
@@ -25,7 +24,7 @@ public class WeatherProviderResource {
     @GET
     @Path("/{providerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public WeatherProvider getWeatherProviderById(@PathParam String providerId)
+    public WeatherProvider getWeatherProviderById(@PathParam("providerId") String providerId)
             throws IOException, URISyntaxException {
         LOGGER.info("Accessing provider data with id: " + providerId);
 

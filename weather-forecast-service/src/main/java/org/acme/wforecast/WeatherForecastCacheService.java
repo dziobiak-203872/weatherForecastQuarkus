@@ -4,6 +4,9 @@ import java.net.URI;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+
 import org.acme.wforecast.proxy.WeatherProvider;
 import org.acme.wforecast.proxy.WeatherProviderProxy;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
