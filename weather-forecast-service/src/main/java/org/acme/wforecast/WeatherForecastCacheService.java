@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import org.acme.wforecast.proxy.WeatherProvider;
 import org.acme.wforecast.proxy.WeatherProviderProxy;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
-import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 import io.quarkus.cache.CacheResult;
