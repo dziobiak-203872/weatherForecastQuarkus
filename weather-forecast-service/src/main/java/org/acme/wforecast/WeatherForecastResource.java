@@ -29,7 +29,7 @@ public class WeatherForecastResource {
     @Path("/{city}/{providerId}")
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
-    public <T> T getDailyForecastForCity(@QueryParam("city") String city, @QueryParam("providerId") String providerId) {
+    public WeatherForecast getDailyForecastForCity(@QueryParam("city") String city, @QueryParam("providerId") String providerId) {
         LOGGER.info("PROVIDER_ID: " + providerId + " CITY: " + city);
         cityStats.merge(city, 1, Integer::sum);
         return weatherForecastCacheService.getDailyForecastForCityFromProvider(city, providerId);

@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 public interface WeatherForecastService {
 
     @GET
-    <T> T getDailyForecastForCity(@QueryParam("city") String city);
+    WeatherForecast getDailyForecastForCity(@QueryParam("city") String city);
 
     @GET
     Response getStatisticsForCity();

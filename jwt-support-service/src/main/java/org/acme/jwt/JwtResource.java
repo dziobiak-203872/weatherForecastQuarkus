@@ -18,7 +18,6 @@ public class JwtResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response getJwt() {
-        String jwt = jwtService.generateJwt();
-        return Response.ok(jwt).build();
+        return Response.ok(jwtService.generateJwt()).build();
     }
 }

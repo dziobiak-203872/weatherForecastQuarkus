@@ -22,7 +22,7 @@ public class WeatherForecastCacheService {
     WeatherProviderProxy weatherProviderProxy;
 
     @CacheResult(cacheName = "weather-cache")
-    public <T> T getDailyForecastForCityFromProvider(String city, String providerId) {
+    public WeatherForecast getDailyForecastForCityFromProvider(String city, String providerId) {
         LOGGER.info("///Retrieving weather data from external API///");
         WeatherProvider weatherProvider = weatherProviderProxy.getWeatherProviderById(providerId);
 
