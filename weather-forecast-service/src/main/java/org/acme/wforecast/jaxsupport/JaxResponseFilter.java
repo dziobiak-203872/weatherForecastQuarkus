@@ -18,8 +18,14 @@ public class JaxResponseFilter implements ContainerResponseFilter {
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
             throws IOException {
+
+        LOGGER.info("Request: " + requestContext.getMethod() + " "
+                + requestContext.getUriInfo().getRequestUri().toString() + " Headers: " + requestContext.getHeaders());
+
         String xRequestIdHeaderMessage = requestContext.getHeaderString(X_REQUESTID).toString();
-        LOGGER.info("xRequestIdHeaderMessage: " + xRequestIdHeaderMessage);
         responseContext.getHeaders().add(X_REQUESTID, xRequestIdHeaderMessage);
+
+        LOGGER.info("Response: Status code: " + Integer.toString(responseContext.getStatusInfo().getStatusCode()) + " Reason phrase: "
+                + responseContext.getStatusInfo().getReasonPhrase() + " Headers: " + responseContext.getHeaders());
     }
 }
