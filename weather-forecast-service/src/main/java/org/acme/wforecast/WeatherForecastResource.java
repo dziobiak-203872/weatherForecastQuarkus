@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,6 +27,7 @@ public class WeatherForecastResource {
 
     @GET
     @Path("/{city}/{providerId}")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     public <T> T getDailyForecastForCity(@QueryParam("city") String city, @QueryParam("providerId") String providerId) {
         LOGGER.info("PROVIDER_ID: " + providerId + " CITY: " + city);
@@ -34,6 +37,7 @@ public class WeatherForecastResource {
 
     @GET
     @Path("/stats")
+    @RolesAllowed({"admin", "user"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStatisticsForCity() {
         return Response.ok(cityStats).build();
