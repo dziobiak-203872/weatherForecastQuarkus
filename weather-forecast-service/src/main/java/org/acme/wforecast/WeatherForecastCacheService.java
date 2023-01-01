@@ -29,7 +29,6 @@ public class WeatherForecastCacheService {
         StringBuilder baseUri = new StringBuilder(weatherProvider.url);
         baseUri.append(weatherProvider.params.get(0))
                 .append(city)
-                .append(weatherProvider.delimiter)
                 .append(weatherProvider.apiKey);
 
         return RestClientBuilder.newBuilder()
