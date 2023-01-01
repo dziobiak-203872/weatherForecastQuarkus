@@ -8,11 +8,10 @@ public class WeatherProvider {
     public String url;
     public String apiKey;
     public ArrayList<String> params;
-    public String delimiter;
 
     @Override
     public String toString() {
         return "WeatherProvider [providerId=" + providerId + ", url=" + url + ", params="
-                + params + ", delimiter=" + delimiter + "]";
+                + params + ", delimiter=" + "]";
     }
 }

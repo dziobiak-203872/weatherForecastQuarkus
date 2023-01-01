@@ -13,7 +13,7 @@ public class JwtService {
     public String generateJwt() {
         return Jwt.issuer("jwt-support-service")
                 .subject("jwt-support-service")
-                .groups(new HashSet<>(Arrays.asList("admin", "admin")))
+                .groups(new HashSet<>(Arrays.asList("admin", "user")))
                 .expiresAt(System.currentTimeMillis() + 3600)
                 .sign();
     }
