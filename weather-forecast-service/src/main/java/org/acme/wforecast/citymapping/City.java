@@ -12,8 +12,13 @@ public class City {
     @JsonProperty("lon")
     public String longitude;
 
+    public String country;
+
+    public String state;
+
     @Override
     public String toString() {
-        return "City [name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+        return "City [name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + ", country=" + country
+                + ", state=" + state + "]";
     }
 }

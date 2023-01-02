@@ -1,8 +1,7 @@
 package org.acme.wforecast;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.Arrays;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,14 +29,13 @@ public class WeatherForecastCacheService {
     WeatherProviderProxy weatherProviderProxy;
 
     @CacheResult(cacheName = "weather-cache")
-    public WeatherForecast getDailyForecastForCityFromProvider(String cityName, String providerId) {
+    public WeatherForecast getDailyForecastForCityFromProvider(String cityName, String cityState, String countryCode, String providerId) {
         LOGGER.info("///Retrieving weather data from external API///");
         WeatherProvider weatherProvider = weatherProviderProxy.getWeatherProviderById(providerId);
 
-        City city = cityService.getCityLocationData(cityName).stream().findFirst().get();
+        City city = cityService.getCityLocationData(String.join(",", Arrays.asList(cityName, cityState, countryCode))).stream().findFirst().get();
 
         StringBuilder baseUri = new StringBuilder(weatherProvider.url);
-
         if (weatherProvider.params.size() == 1) {
             baseUri.append(weatherProvider.params.get(0))
                     .append(city.latitude)
@@ -55,6 +53,6 @@ public class WeatherForecastCacheService {
 
         return RestClientBuilder.newBuilder()
                 .baseUri(URI.create(baseUri.toString()))
-                .build(WeatherForecastService.class).getDailyForecastForCity(cityName);
+                .build(WeatherForecastService.class).getDailyForecastForCity();
     }
 }

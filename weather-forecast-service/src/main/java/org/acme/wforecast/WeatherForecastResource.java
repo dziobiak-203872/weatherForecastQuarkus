@@ -26,13 +26,14 @@ public class WeatherForecastResource {
     WeatherForecastCacheService weatherForecastCacheService;
 
     @GET
-    @Path("/{city}/{providerId}")
+    @Path("/{city}/{countryCode}/{state}/{providerId}")
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
-    public WeatherForecast getDailyForecastForCity(@QueryParam("city") String city, @QueryParam("providerId") String providerId) {
-        LOGGER.info("PROVIDER_ID: " + providerId + " CITY: " + city);
+    public WeatherForecast getDailyForecastForCity(@QueryParam("city") String city, @QueryParam("state") String state,
+            @QueryParam("countryCode") String countryCode, @QueryParam("providerId") String providerId) {
+        LOGGER.info("PROVIDER_ID: " + providerId + " CITY: " + city + " COUNTRY_CODE: " + countryCode + " STATE: " + state);
         cityStats.merge(city, 1, Integer::sum);
-        return weatherForecastCacheService.getDailyForecastForCityFromProvider(city, providerId);
+        return weatherForecastCacheService.getDailyForecastForCityFromProvider(city, state, countryCode, providerId);
     }
 
     @GET
