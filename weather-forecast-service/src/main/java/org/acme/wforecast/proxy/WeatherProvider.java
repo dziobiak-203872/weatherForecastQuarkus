@@ -8,4 +8,5 @@ public class WeatherProvider {
     public String url;
     public String apiKey;
     public ArrayList<String> params;
+    public String delimiter;
 }

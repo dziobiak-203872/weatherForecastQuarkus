@@ -1,10 +1,14 @@
 package org.acme.wforecast;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.acme.wforecast.citymapping.City;
+import org.acme.wforecast.citymapping.CityService;
 import org.acme.wforecast.proxy.WeatherProvider;
 import org.acme.wforecast.proxy.WeatherProviderProxy;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
@@ -19,20 +23,38 @@ public class WeatherForecastCacheService {
 
     @Inject
     @RestClient
+    CityService cityService;
+
+    @Inject
+    @RestClient
     WeatherProviderProxy weatherProviderProxy;
 
     @CacheResult(cacheName = "weather-cache")
-    public WeatherForecast getDailyForecastForCityFromProvider(String city, String providerId) {
+    public WeatherForecast getDailyForecastForCityFromProvider(String cityName, String providerId) {
         LOGGER.info("///Retrieving weather data from external API///");
         WeatherProvider weatherProvider = weatherProviderProxy.getWeatherProviderById(providerId);
 
+        City city = cityService.getCityLocationData(cityName).stream().findFirst().get();
+
         StringBuilder baseUri = new StringBuilder(weatherProvider.url);
-        baseUri.append(weatherProvider.params.get(0))
-                .append(city)
-                .append(weatherProvider.apiKey);
+
+        if (weatherProvider.params.size() == 1) {
+            baseUri.append(weatherProvider.params.get(0))
+                    .append(city.latitude)
+                    .append(weatherProvider.delimiter)
+                    .append(city.longitude)
+                    .append(weatherProvider.apiKey);
+        } else {
+            baseUri.append(weatherProvider.params.get(0))
+                    .append(city.latitude)
+                    .append(weatherProvider.delimiter)
+                    .append(weatherProvider.params.get(1))
+                    .append(city.longitude)
+                    .append(weatherProvider.apiKey);
+        }
 
         return RestClientBuilder.newBuilder()
                 .baseUri(URI.create(baseUri.toString()))
-                .build(WeatherForecastService.class).getDailyForecastForCity(city);
+                .build(WeatherForecastService.class).getDailyForecastForCity(cityName);
     }
 }
