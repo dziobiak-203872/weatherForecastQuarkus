@@ -5,6 +5,13 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@ToString
+@EqualsAndHashCode
 public class WeatherForecast {
 
     public String description;
