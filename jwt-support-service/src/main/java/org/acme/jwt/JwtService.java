@@ -3,11 +3,11 @@ package org.acme.jwt;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import javax.inject.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 
 import io.smallrye.jwt.build.Jwt;
 
-@Singleton
+@ApplicationScoped
 public class JwtService {
 
     public String generateJwt() {
