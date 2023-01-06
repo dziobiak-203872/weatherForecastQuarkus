@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
+import javax.ws.rs.core.Response;
+
 @QuarkusTest
 public class JwtResourceTest {
 
@@ -14,7 +16,7 @@ public class JwtResourceTest {
         given()
                 .when().get("/jwt")
                 .then()
-                .statusCode(200)
+                .statusCode(Response.Status.OK.getStatusCode())
                 .body(is("Mock Jwt token"));
     }
 }

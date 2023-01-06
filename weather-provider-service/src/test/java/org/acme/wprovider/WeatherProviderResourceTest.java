@@ -8,6 +8,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.hasSize;
 
+import javax.ws.rs.core.Response;
+
 @QuarkusTest
 public class WeatherProviderResourceTest {
 
@@ -18,7 +20,7 @@ public class WeatherProviderResourceTest {
                 .pathParam("providerId", existingProvider)
                 .when().get("/api/providers/{providerId}")
                 .then()
-                .statusCode(200)
+                .statusCode(Response.Status.OK.getStatusCode())
                 .body("url", is("http://api.weatherapi.com/v1/current.json?"))
                 .body("$", hasKey("apiKey"))
                 .body("params", hasSize(1))
@@ -32,6 +34,6 @@ public class WeatherProviderResourceTest {
                 .pathParam("providerId", nonExistentProvider)
                 .when().get("/api/providers/{providerId}")
                 .then()
-                .statusCode(204);
+                .statusCode(Response.Status.NO_CONTENT.getStatusCode());
     }
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 
 @Path("/")
+@ApplicationScoped
 public class WeatherForecastResource {
 
     private static final Logger LOGGER = Logger.getLogger(WeatherForecastResource.class);
