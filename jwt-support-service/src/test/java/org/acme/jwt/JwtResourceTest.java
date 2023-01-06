@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 public class JwtResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testGetJwt() {
         given()
                 .when().get("/jwt")
                 .then()

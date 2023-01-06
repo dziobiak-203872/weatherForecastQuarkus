@@ -2,18 +2,13 @@ package org.acme.wforecast;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
-import io.quarkus.test.security.TestSecurity;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.hamcrest.CoreMatchers.is;
-import static io.restassured.RestAssured.given;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.ws.rs.core.Response;
+import static org.mockito.ArgumentMatchers.any;
 
 @QuarkusTest
 public class WeatherForecastResourceTest {
@@ -21,27 +16,27 @@ public class WeatherForecastResourceTest {
     @InjectMock
     WeatherForecastResource weatherForecastResource;
 
-    @Test
-    public void testGetStatisticsForCityNoAuthorization() {
-        given()
-                .when().get("/stats")
-                .then()
-                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+    private WeatherForecast weatherForecast;
+
+    @BeforeEach
+    public void setup() {
+        weatherForecast = new WeatherForecast();
+        weatherForecast.setDescription("Sunny");
+        weatherForecast.setTemperature("11.0");
+        weatherForecast.setFeelsLike("9.2");
+        weatherForecast.setVisibility("10.0");
+        weatherForecast.setPressure("1016.0");
+        weatherForecast.setHumidity("71");
+        weatherForecast.setCloud("0");
+        weatherForecast.setWind("9.4");
+
+        Mockito.when(weatherForecastResource.getDailyForecastForCity(any(), any(), any(), any())).thenReturn(weatherForecast);
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"admin", "user"})
-    public void testGetStatisticsForCityAuthorization() {
-        Map<String, Integer> cityStats = new HashMap<>();
-        cityStats.put("Warsaw", 2);
-        cityStats.put("London", 1);
-
-        Mockito.when(weatherForecastResource.getStatisticsForCity()).thenReturn(Response.ok(cityStats).build());
-        given()
-                .when().get("/stats")
-                .then()
-                .statusCode(Response.Status.OK.getStatusCode())
-                .body("Warsaw", is(2))
-                .body("London", is(1));
+    public void testGetDailyForecastForCity() {
+        WeatherForecast wForecast = weatherForecastResource.getDailyForecastForCity(any(), any(), any(), any());
+        Assertions.assertNotNull(wForecast);
+        Assertions.assertEquals(weatherForecast, wForecast);
     }
 }

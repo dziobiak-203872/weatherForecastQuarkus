@@ -27,7 +27,7 @@ public class CityServiceTest {
         expectedCity.setLatitude("51.5073219");
         expectedCity.setLongitude("-0.1276474");
 
-        ArrayList<City> actualCities = cityService.getCityLocationData("DummyCityData");
+        ArrayList<City> actualCities = cityService.getCityLocationData("dummyCityData");
         Assertions.assertNotNull(actualCities);
         Assertions.assertEquals(expectedCity, actualCities.get(0));
     }
