@@ -28,7 +28,7 @@ public class WeatherForecastResource {
     WeatherForecastCacheService weatherForecastCacheService;
 
     @GET
-    @Path("/{city}/{countryCode}/{state}/{providerId}")
+    @Path("/weather/{city}/{countryCode}/{state}/{providerId}")
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     public WeatherForecast getDailyForecastForCity(@QueryParam("city") String city, @QueryParam("state") String state,

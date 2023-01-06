@@ -1,34 +1,47 @@
 package org.acme.wforecast;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectMock;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.acme.wforecast.citymapping.City;
 import org.acme.wforecast.citymapping.CityService;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import static org.mockito.ArgumentMatchers.anyString;
+
 import java.util.ArrayList;
-import javax.inject.Inject;
+import java.util.Arrays;
 
 @QuarkusTest
 public class CityServiceTest {
 
-    @Inject
+    @InjectMock
     @RestClient
     CityService cityService;
 
-    @Test
-    public void testGetStatisticsForCityAuthorization() {
-        City expectedCity = new City();
-        expectedCity.setCountry("GB");
-        expectedCity.setName("London");
-        expectedCity.setState("England");
-        expectedCity.setLatitude("51.5073219");
-        expectedCity.setLongitude("-0.1276474");
+    private City city;
 
-        ArrayList<City> actualCities = cityService.getCityLocationData("dummyCityData");
+    @BeforeEach
+    public void setup() {
+        city = new City();
+        city.setCountry("GB");
+        city.setName("London");
+        city.setState("England");
+        city.setLatitude("51.5073219");
+        city.setLongitude("-0.1276474");
+
+        Mockito.when(cityService.getCityLocationData(anyString())).thenReturn(new ArrayList<City>(Arrays.asList(city)));
+    }
+
+    @Test
+    public void testGetCityLocationData() {
+        ArrayList<City> actualCities = cityService.getCityLocationData(anyString());
         Assertions.assertNotNull(actualCities);
-        Assertions.assertEquals(expectedCity, actualCities.get(0));
+        Assertions.assertTrue(1 == actualCities.size());
+        Assertions.assertEquals(city, actualCities.get(0));
     }
 }
