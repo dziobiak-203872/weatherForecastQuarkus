@@ -22,15 +22,6 @@ public class WeatherForecastResourceTest {
     @InjectMock
     WeatherForecastResource weatherForecastResource;
 
-    private Map<String, Integer> cityStats;
-
-    @BeforeEach
-    void setUp() {
-        cityStats = new HashMap<>();
-        cityStats.put("Warsaw", 2);
-        cityStats.put("London", 1);
-    }
-
     @Test
     public void testGetStatisticsForCityNoAuthorization() {
         given()
@@ -42,6 +33,10 @@ public class WeatherForecastResourceTest {
     @Test
     @TestSecurity(user = "testUser", roles = {"admin", "user"})
     public void testGetStatisticsForCityAuthorization() {
+        Map<String, Integer> cityStats = new HashMap<>();
+        cityStats.put("Warsaw", 2);
+        cityStats.put("London", 1);
+
         Mockito.when(weatherForecastResource.getStatisticsForCity()).thenReturn(Response.ok(cityStats).build());
         given()
                 .when().get("/stats")
