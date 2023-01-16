@@ -2,6 +2,7 @@ package org.acme.wforecast;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -33,26 +34,31 @@ public class WeatherForecastCacheService {
         LOGGER.info("///Retrieving weather data from external API///");
         WeatherProvider weatherProvider = weatherProviderProxy.getWeatherProviderById(providerId);
 
-        City city = cityService.getCityLocationData(String.join(",", Arrays.asList(cityName, cityState, countryCode))).stream().findFirst().get();
+        Optional<City> city = cityService.getCityLocationData(String.join(",", Arrays.asList(cityName, cityState, countryCode)))
+                .stream().findFirst();
 
-        StringBuilder baseUri = new StringBuilder(weatherProvider.url);
-        if (weatherProvider.params.size() == 1) {
-            baseUri.append(weatherProvider.params.get(0))
-                    .append(city.latitude)
-                    .append(weatherProvider.delimiter)
-                    .append(city.longitude)
-                    .append(weatherProvider.apiKey);
-        } else {
-            baseUri.append(weatherProvider.params.get(0))
-                    .append(city.latitude)
-                    .append(weatherProvider.delimiter)
-                    .append(weatherProvider.params.get(1))
-                    .append(city.longitude)
-                    .append(weatherProvider.apiKey);
+        if (city.isPresent()) {
+
+            StringBuilder baseUri = new StringBuilder(weatherProvider.url);
+            if (weatherProvider.params.size() == 1) {
+                baseUri.append(weatherProvider.params.get(0))
+                        .append(city.get().latitude)
+                        .append(weatherProvider.delimiter)
+                        .append(city.get().longitude)
+                        .append(weatherProvider.apiKey);
+            } else {
+                baseUri.append(weatherProvider.params.get(0))
+                        .append(city.get().latitude)
+                        .append(weatherProvider.delimiter)
+                        .append(weatherProvider.params.get(1))
+                        .append(city.get().longitude)
+                        .append(weatherProvider.apiKey);
+            }
+
+            return RestClientBuilder.newBuilder()
+                    .baseUri(URI.create(baseUri.toString()))
+                    .build(WeatherForecastService.class).getDailyForecastForCity();
         }
-
-        return RestClientBuilder.newBuilder()
-                .baseUri(URI.create(baseUri.toString()))
-                .build(WeatherForecastService.class).getDailyForecastForCity();
+        return null;
     }
 }

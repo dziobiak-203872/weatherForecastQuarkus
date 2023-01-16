@@ -25,7 +25,7 @@ public class WeatherForecast {
 
     @SuppressWarnings("unchecked")
     @JsonProperty("current")
-    public void unpackNestedVisibility(Map<String, Object> current) {
+    public void unpackNestedFromCurrent(Map<String, Object> current) {
         this.visibility = current.get("vis_km").toString();
         this.feelsLike = current.get("feelslike_c").toString();
         this.pressure = current.get("pressure_mb").toString();
@@ -38,7 +38,7 @@ public class WeatherForecast {
     }
 
     @JsonProperty("main")
-    public void unpackNestedFeelsLike(Map<String, Object> main) {
+    public void unpackNestedFromMain(Map<String, Object> main) {
         this.feelsLike = main.get("feels_like").toString();
         this.pressure = main.get("pressure").toString();
         this.humidity = main.get("humidity").toString();
@@ -46,17 +46,17 @@ public class WeatherForecast {
     }
 
     @JsonProperty("clouds")
-    public void unpackNestedClouds(Map<String, Object> clouds) {
+    public void unpackNestedFromClouds(Map<String, Object> clouds) {
         this.cloud = clouds.get("all").toString();
     }
 
     @JsonProperty("wind")
-    public void unpackNestedWind(Map<String, Object> wind) {
+    public void unpackNestedFromWind(Map<String, Object> wind) {
         this.wind = wind.get("speed").toString();
     }
 
     @JsonProperty("weather")
-    public void unpackNestedDescription(List<Map<String, Object>> weather) {
+    public void unpackNestedFromWeather(List<Map<String, Object>> weather) {
         Map<String, Object> weatherList = (Map<String, Object>) weather.get(0);
         this.description = weatherList.get("description").toString();
     }
